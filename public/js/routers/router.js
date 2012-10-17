@@ -28,11 +28,6 @@ function($, _, Backbone, Admin, FourOhFour, AdminView, ChromeView, FourOhFourVie
 
     showChrome: function() {
       console.log('Showing Chrome');
-
-      //Backbone.history.navigate('admin');
-      //return;
-
-
       this.destroyPrimary(this.admin, this.adminView);
       this.destroyPrimary(this.fourohfour, this.fourohfourView);
 
