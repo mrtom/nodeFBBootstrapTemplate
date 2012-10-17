@@ -23,6 +23,11 @@ var app = express.createServer();
 app.configure(function() {
   app.use(express.static(__dirname + '/public'));
   app.use('/admin',   express.static(__dirname + '/public'));
+  app.use(function(req, res, next){
+    // Let backbone handle 404s
+    res.header('Content-Type', 'text/html');
+    res.sendfile('public/index.html');
+  });
 });
 
 // sigh no ipv6

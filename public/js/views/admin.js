@@ -16,18 +16,12 @@ function($, _, Backbone, adminTemplate) {
 
     adminTemplate: _.template(adminTemplate),
 
-    events: {
-      "click #reset" : "reset"
-    },
-
     initialize: function() {
-      this.$el.addClass('admin').append(this.adminTemplate());
-      $('#booth').append(this.$el);
-
+      this.render();
     },
 
-    reset: function() {
-      localStorage.clear();
+    render: function() {
+      $(this.el).html(this.adminTemplate(this.model.toJSON()));
     },
 
     destroy: function() {

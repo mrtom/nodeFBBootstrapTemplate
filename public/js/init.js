@@ -48,8 +48,8 @@ require([
 
 function(Router) {
   // Bootstrap main app here, if needed
-  var AppRouter = new Router;
+  new Router();
   Backbone.history.start({
-    pustState: true
+    pushState: true
   });
 });

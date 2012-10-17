@@ -10,26 +10,29 @@ define([
 
   // Views
   "views/admin",
-  "views/fourohfour",
-  "views/chrome"
+  "views/chrome",
+  "views/fourohfour"
 ], 
 
-function($, _, Backbone, Admin, FourOhFour, AdminView, FourOhFourView, ChromeView) {
+function($, _, Backbone, Admin, FourOhFour, AdminView, ChromeView, FourOhFourView) {
   // App Router
   // ---------- 
                 
   var Workspace = Backbone.Router.extend({
 
     routes: {
-      ""            : "showMain",
+      ""            : "showChrome",
       "admin"       : "showAdmin",
-      "*other"      : "showFourOhfour"
+      "*other"      : "showFourOhFour"
     },
 
-    initialize: function() {
-    },
+    showChrome: function() {
+      console.log('Showing Chrome');
 
-    showMain: function() {
+      //Backbone.history.navigate('admin');
+      //return;
+
+
       this.destroyPrimary(this.admin, this.adminView);
       this.destroyPrimary(this.fourohfour, this.fourohfourView);
 
@@ -40,21 +43,31 @@ function($, _, Backbone, Admin, FourOhFour, AdminView, FourOhFourView, ChromeVie
     },
 
     showAdmin: function() {
+      console.debug('Showing Admin');
       this.destroyPrimary(this.main, this.mainView);
       this.destroyPrimary(this.fourohfour, this.fourohfourView);
 
       this.admin = new Admin();
-      this.adminView = new AdminView({model: this.admin});
+      this.adminView = new AdminView({
+        el: $('#bootstrap'),
+        router: this,
+        model: this.admin
+      });
     },
 
-    showFourOhfour: function(route) {
+    showFourOhFour: function(route) {
+      console.debug('Showing 404');
       this.destroyPrimary(this.main, this.mainView);
       this.destroyPrimary(this.admin, this.adminView);
 
       this.fourohfour = new FourOhFour({
         route: route
       });
-      this.fourohfourView = new FourOhFourView({model: this.fourohfour});
+      this.fourohfourView = new FourOhFourView({
+        el: $('#bootstrap'),
+        router: this,
+        model: this.fourohfour
+      });
     },
 
     destroyPrimary: function(/* Backbone.Model */ model, /* Backbone.View */ view) {

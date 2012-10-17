@@ -12,12 +12,14 @@ function($, _, Backbone, fourohfourTemplate) {
 
     fourohfourTemplate: _.template(fourohfourTemplate),
 
-    className: "fourOhFour row",
+    className: "fourOhFour",
 
     initialize: function() {
-      console.log(this.$el);
-      this.$el.append(this.fourohfourTemplate(this.model.toJSON()));
-      $('#booth').append(this.$el);
+      this.render();
+    },
+
+    render: function() {
+      $(this.el).html(this.fourohfourTemplate(this.model.toJSON()));
     },
 
     destroy: function() {

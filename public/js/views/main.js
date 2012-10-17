@@ -49,6 +49,10 @@ function($, _, Backbone, Bootstrap, mainTemplate) {
 
     render: function() {
       $(this.el).html(this.mainTemplate());
+    },
+
+    destroy: function() {
+      this.remove();
     }
   });
 
