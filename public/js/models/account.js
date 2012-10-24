@@ -15,12 +15,9 @@ function($, _, Backbone, User) {
 
   var Account = Backbone.Model.extend({
 
-    // Default attributes for the User
-    defaults: {
-    },
-
     initialize: function() {
-      this.user = new User();
+      if (!this.get('verb'))   this.set('verb',"");
+      if (!this.get('method')) this.set('method',"");
     }
   });
 

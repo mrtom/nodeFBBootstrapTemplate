@@ -1,6 +1,11 @@
 <div class="container">
   <h1><%= user.attributes.name %></h1>
   <div class="row">
+    <div class="span 4 offset 4">
+      Testing API: Called method <%= method %> with HTTP verb <%= verb %>.
+    </div>
+  </div>
+  <div class="row">
     <div class="span3 offset 2">
       <button class="btn btn-inverse btn-unlink" <%= disabled%>>Unlink with Facebook</button>
     </div>

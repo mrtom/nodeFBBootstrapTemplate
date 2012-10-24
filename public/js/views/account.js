@@ -32,6 +32,24 @@ function($, _, Backbone, User, BaseView, navView, accountTemplate) {
       this.model.on('change', this.render, this);
       this.model.get('user').on('change', this.render, this);
       this.render();
+
+      // Demonstrate an API call
+      $.ajax({
+        url: "/api/demoAPI",
+        context: this,
+        type: "POST",
+        data: "foo=blah"
+      }).done(function(r) {
+        if (r.method && r.verb) {
+          this.model.set({
+            'verb'  : r.verb,
+            'method': r.method
+          });
+        } else {
+          // Show error to user
+          console.error('Did not understand response from API:', r);
+        }
+      });
     },
 
     render: function() {

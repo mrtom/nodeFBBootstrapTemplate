@@ -21,14 +21,31 @@ var express = require('express'),
 var app = express.createServer();
 
 app.configure(function() {
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+
+  // Load the app in JS, letting Backbone handle the routing
   app.use(express.static(__dirname + '/public'));
-  app.use('/admin',   express.static(__dirname + '/public'));
+
+  // Handle api requests in the server
+  app.all('/api/:method', function(req, res) {
+    return handleAPICall(req, res, req.method, req.params.method);
+  });
+
   app.use(function(req, res, next){
     // Let backbone handle 404s
     res.header('Content-Type', 'text/html');
     res.sendfile('public/index.html');
   });
 });
+
+function handleAPICall(req, res, verb, method) {
+  res.header('Content-Type', 'text/json');
+  res.send(JSON.stringify({
+    'verb'   : verb,
+    'method' : method
+  }));
+}
 
 // Do some shuffling for heroku vs loading from config.js
 var port, host;
