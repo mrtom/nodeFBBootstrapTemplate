@@ -30,7 +30,18 @@ app.configure(function() {
   });
 });
 
+// Do some shuffling for heroku vs loading from config.js
+var port, host;
+// Use Heroku style environment variables if available
+if(process.env.PORT) {
+  port = process.env.PORT;
+  host = process.env.HOST || "0.0.0.0";
+} else {
+  port = config.app.port;
+  host = config.app.host;
+}
+
 // sigh no ipv6
-var server = app.listen(8000, '127.0.0.1', null, function() {
+var server = app.listen(port, host, null, function() {
   console.log("Started server on port http://%s:%d", server.address().address, server.address().port);
 });

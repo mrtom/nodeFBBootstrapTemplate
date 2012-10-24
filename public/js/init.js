@@ -35,7 +35,7 @@ require.config({
 
     bootstrap: {
       deps: ["jquery"],
-      exporst: "Bootstrap"
+      exports: "Bootstrap"
     }
   }
 

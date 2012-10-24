@@ -4,15 +4,18 @@ define([
   "underscore",
   "backbone",
 
+  // Views
+  "views/base",
+
   "text!template/adminTemplate.html"
 ],
 
-function($, _, Backbone, adminTemplate) {
+function($, _, Backbone, BaseView, adminTemplate) {
 
   // Admin View
   // -----------
 
-  var AdminView = Backbone.View.extend({
+  var AdminView = BaseView.extend({
 
     adminTemplate: _.template(adminTemplate),
 
@@ -22,12 +25,7 @@ function($, _, Backbone, adminTemplate) {
 
     render: function() {
       $(this.el).html(this.adminTemplate(this.model.toJSON()));
-    },
-
-    destroy: function() {
-      this.remove();
     }
-
   });
 
   return AdminView;

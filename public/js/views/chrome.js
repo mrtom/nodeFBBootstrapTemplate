@@ -6,9 +6,10 @@ define([
   "bootstrap",
 
   // Models
-  "models/user",
+  "models/nav",
 
   // Views
+  "views/base",
   "views/main",
   "views/nav",
 
@@ -16,8 +17,8 @@ define([
   "text!template/chromeTemplate.html"
 ],
 
-function($, _, Backbone, Bootstrap, User, mainView, navView, chromeTemplate) {
-  var ChromeView = Backbone.View.extend({
+function($, _, Backbone, Bootstrap, Nav, BaseView, mainView, navView, chromeTemplate) {
+  var ChromeView = BaseView.extend({
 
     chromeTemplate: _.template(chromeTemplate),
 
@@ -26,8 +27,8 @@ function($, _, Backbone, Bootstrap, User, mainView, navView, chromeTemplate) {
       // Turn on bootstrap data-api
       $('body').on('.data-api');
       
-      this.user = new User;
       this.render();
+      $('#bootstrap').append(this.$el);
     },
 
     render: function() {
@@ -35,12 +36,19 @@ function($, _, Backbone, Bootstrap, User, mainView, navView, chromeTemplate) {
 
       this.navView = new navView({ 
         el: this.$("#nav"),
-        model: this.user
+        model: new Nav({ user: this.options.user }),
+        router: this.options.router
       });
-      this.mainView = new mainView({ 
+      this.mainView = new this.options.mainViewType({ 
         el: this.$("#main"),
-        model: this.user
+        model: this.options.mainModel,
+        router: this.options.router
       });
+    },
+
+    destroy: function() {
+      this.navView.destroy();
+      this.mainView.destroy();
     }
   });
 

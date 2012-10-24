@@ -4,14 +4,17 @@ define([
   "underscore",
   "backbone",
   "bootstrap",
+
+  // Views,
+  "views/base",
   
   // Templates
   "text!template/mainTemplate.html"
 ],
 
-function($, _, Backbone, Bootstrap, mainTemplate) {
+function($, _, Backbone, Bootstrap, BaseView, mainTemplate) {
 
-  var MainView = Backbone.View.extend({
+  var MainView = BaseView.extend({
     mainTemplate: _.template(mainTemplate),
 
     initialize: function() {
@@ -29,30 +32,28 @@ function($, _, Backbone, Bootstrap, mainTemplate) {
           });
 
           FB.Event.subscribe('auth.authResponseChange', _.bind(function(response) {
-            $('#loginModal').modal('hide');
+            switch(response.status) {
+              case 'unknown':
+                // Fall through
+              case 'not_authorized':
+                break;
+              case 'connected': 
+                $('#loginModal').modal('hide');
 
-            var uid = response.authResponse.userID;
-            console.debug('woop! Welcome user #'+uid);
-
-            FB.api('me?fields=id,name,picture.type(square)', _.bind(function(r) {
-              this.model.set({
-                'name': r.name,
-                'pic': r.picture.data.url,
-                'loaded': true
-              });
-            }, this));
+                this.model.set('signedRequest', response.authResponse.signedRequest);
+                
+                break;
+                default:
+                  console.log("Unexpected response from Facebook auth: `" + response.status + "` not recognised!")
+            }
           }, this));
-
         }, this));
+
         this.render();
     },
 
     render: function() {
       $(this.el).html(this.mainTemplate());
-    },
-
-    destroy: function() {
-      this.remove();
     }
   });
 

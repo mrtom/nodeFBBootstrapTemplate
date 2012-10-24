@@ -3,12 +3,17 @@ define([
   "jquery",
   "underscore",
   "backbone",
+
+  // Views
+  "views/base",
+
+  // Templates
   "text!template/fourohfourTemplate.html"
 ],
 
-function($, _, Backbone, fourohfourTemplate) {
+function($, _, Backbone, BaseView, fourohfourTemplate) {
 
-  var FourOhFourView = Backbone.View.extend({
+  var FourOhFourView = BaseView.extend({
 
     fourohfourTemplate: _.template(fourohfourTemplate),
 
